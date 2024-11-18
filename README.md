@@ -1,6 +1,6 @@
 # WavUp Service
 
-This service converts audio files (e.g., OGG, FLAC, OPUS) to 16kHz WAV format.
+This service converts audio files (e.g., Vorbis, FLAC, Opus encoded Ogg/Oga audio files) to 16kHz WAV format.
 
 ## Setup
 
