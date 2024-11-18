@@ -16,22 +16,13 @@ TARGET_SAMPLE_RATE = 16000  # 16kHz
 @app.route("/convert", methods=["POST"])
 def convert_audio():
     try:
-        # Check if request has JSON data
-        if not request.is_json:
-            return {"error": "Request must be JSON"}, 400
-
-        data = request.get_json()
-
-        # Check if 'contents' field exists
-        if "contents" not in data:
-            return {"error": "Missing contents field"}, 400
+        # Check if request has data
+        if not request.data:
+            return {"error": "No audio data received"}, 400
 
         try:
-            # Decode base64 audio data
-            audio_bytes = base64.b64decode(data["contents"])
-
             # Create memory buffer for input data
-            audio_buffer = io.BytesIO(audio_bytes)
+            audio_buffer = io.BytesIO(request.data)
 
             # Try to load the audio data
             # pydub will automatically detect the codec (vorbis, FLAC, opus)
@@ -55,11 +46,13 @@ def convert_audio():
                 ],
             )
 
-            # Get the bytes from the buffer and encode as base64
-            wav_bytes = base64.b64encode(wav_buffer.getvalue()).decode("utf-8")
+            # Get the bytes from the buffer
+            wav_bytes = wav_buffer.getvalue()
 
-            # Return JSON response with wav bytes
-            return {"contents": wav_bytes}
+            # Create response with wav bytes
+            response = make_response(wav_bytes)
+            response.headers["Content-Type"] = "audio/wav"
+            return response
 
         except Exception as e:
             return {"error": f"Audio conversion failed: {str(e)}"}, 500
