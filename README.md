@@ -41,7 +41,7 @@ python server.py --port 9069
 
 ```bash
 # First, convert audio file to base64
-BASE64_AUDIO=$(base64 -w 0 input.ogg)
+BASE64_AUDIO=$(base64 -w 0 example_opus.oga)
 
 # Send request
 curl -X POST \
