@@ -1,5 +1,7 @@
 # WavUp Service
 
+This service converts audio files (e.g., OGG, FLAC, OPUS) to 16kHz WAV format.
+
 ## Setup
 
 - Install dependencies
