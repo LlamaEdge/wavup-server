@@ -29,14 +29,35 @@ sudo apt-get install ffmpeg
 
 ```bash
 # run on default port (9069)
-python app.py
+python server.py
 
 # run on custom port
-python app.py --port 9069
+python server.py --port 9069
 ```
 
 ## Test
 
+- Test with `curl`
+
 ```bash
-curl -X POST -F "audio=@your_audio.ogg" http://localhost:9069/convert --output converted.wav
+# First, convert audio file to base64
+BASE64_AUDIO=$(base64 -w 0 input.ogg)
+
+# Send request
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d "{\"contents\":\"$BASE64_AUDIO\"}" \
+     http://localhost:9069/convert > response.json
+
+# Extract and decode audio data from response
+cat response.json | jq -r '.contents' | base64 -d > output.wav
 ```
+
+- Test with `python`
+
+```bash
+cd test
+python client.py
+```
+
+If the Python script runs successfully, you should see the output file `output.wav` in the `test` directory.
