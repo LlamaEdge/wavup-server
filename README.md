@@ -40,17 +40,11 @@ python server.py --port 9069
 - Test with `curl`
 
 ```bash
-# First, convert audio file to base64
-BASE64_AUDIO=$(base64 -w 0 example_opus.oga)
-
-# Send request
-curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{\"contents\":\"$BASE64_AUDIO\"}" \
-     http://localhost:9069/convert > response.json
-
-# Extract and decode audio data from response
-cat response.json | jq -r '.contents' | base64 -d > output.wav
+# 发送请求
+curl -X POST --data-binary @input.ogg \
+  -H "Content-Type: audio/ogg" \
+  http://localhost:9069/convert \
+  --output output.wav
 ```
 
 - Test with `python`
