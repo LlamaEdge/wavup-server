@@ -5,6 +5,11 @@
 - Install dependencies
 
 ```bash
+# Optional: use conda or other tools to create a new virtual environment
+conda create -n wavup python=3.11
+conda activate wavup
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
